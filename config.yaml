@@ -1,0 +1,52 @@
+rooms:
+  - name: "Beamer Room"
+    capacity: 20
+    time_constraints: []
+    fulfilled_room_constraints: []
+  - name: "Small Room"
+    capacity: 15
+    time_constraints: []
+    fulfilled_room_constraints: []
+  - name: "Couch"
+    capacity: 8
+    time_constraints: [] # Time tags this room is available at
+    fulfilled_room_constraints: [] # Room constraints tags this timeslots fulfills
+
+timeslots:
+  - name: "Do 17-18"
+    fulfilled_time_contraints: [] # Time constraints tags this timeslot fulfills
+  - name: "Do 18-19"
+  - name: "Do 17-18"
+  - name: "Do 18-19"
+  - name: "Fr 10,5-11,5"
+  - name: "Fr 11,5-12,5"
+  - name: "Fr 12,5-13,5"
+  - name: "Fr 14,5-15,5"
+  - name: "Fr 15,5-16,5"
+  - name: "Fr 17-18"
+  - name: "Fr 18-19"
+  - name: "Sa 10,5-11,5"
+  - name: "Sa 11,5-12,5"
+  - name: "Sa 13-14"
+  - name: "Sa 14-15"
+  - name: "Sa 15-16"
+  - name: "So 10,5-11,5"
+  - name: "So 11,5-12,5"
+
+aks:
+  - head: Fabi
+    name: Admins
+    duration: 2
+    # id:
+    room_constraints: []
+    time_constraints: []
+
+participants:
+  - name: Paul
+    aks:
+      - name: "Some AK"
+        #id: # or use IDs?
+        required: false
+        score: 1
+        room_constraints: []
+        time_constraints: []

@@ -1,0 +1,5 @@
+out.json
+input.json
+.docker.id
+.solver.docker.id
+.parser.docker.id
