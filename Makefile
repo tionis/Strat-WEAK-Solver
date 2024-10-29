@@ -1,17 +1,26 @@
-.PHONY: help
+.PHONY: help plan setup clean
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_./-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 plan: out.json ## Plan the AKs
 
-out.json: input.json .solver.docker.id
-	docker run --rm -v "$$(PWD)/input.json:/input.json" -v "$(PWD)/out.json:/out-input.json" "$$(cat .docker.id)" -- python -m ak-plan-optimierung/akplan.solve --threads "$$(nproc)" --gap_rel 9 input.json
+setup: .venv/deps ## setup runtime
 
-.solver.docker.id: deps/solver.Dockerfile
-	docker build -t ak-solver --iidfile .docker.id deps/solver.Dockerfile
+.venv:
+	python3 -m venv ".venv" && (echo "PATH_add ./.venv/bin" > ".envrc")
+	command -v direnv >/dev/null && direnv allow
 
-.parser.docker.id: deps/parser.Dockerfile
-	docker build -t ak-parser --iidfile .parser.docker.id deps/parser.Dockerfile
+.venv/deps: .venv ak-plan-optimierung #requirements.txt
+	#.venv/bin/pip install -r requirements.txt
+	pip install ./ak-plan-optimierung
+	touch .venv/deps
 
-input.json: aks.csv people.csv .parser.docker.id
-	docker run --rm -v "$$(PWD)/aks.csv:/aks.csv" -v "$$(PWD)/people.csv:/people.csv" -v "$$(PWD)/input.json:/input.json" "$$(cat .parser.docker.id)" python3 /parse.py
+clean: ## Clean up
+	rm -rf .venv out.json input.json
+
+out.json: input.json
+	.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 input.json
+	mv out-input.json out.json
+
+input.json: config.yaml
+	.venv/bin/python deps/generate_input_json.py config.yaml input.json
