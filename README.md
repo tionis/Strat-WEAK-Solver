@@ -1,0 +1,1 @@
+# STRAtegie WochenEnde ArbeitsKreis SOLVER
