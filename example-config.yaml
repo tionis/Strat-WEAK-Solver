@@ -15,9 +15,9 @@ rooms:
 
 timeslots:
   - name: "Do 17-18"
-    fulfilled_time_contraints: ["donnerstag_abend"] # Time constraint tags this timeslot fulfills
+    fulfilled_time_constraints: ["donnerstag_abend"] # Time constraint tags this timeslot fulfills
   - name: "Do 18-19"
-    fulfilled_time_contraints: ["donnerstag_abend"]
+    fulfilled_time_constraints: ["donnerstag_abend"]
   - name: "Fr 10,5-11,5"
   - name: "Fr 11,5-12,5"
   - name: "Fr 12,5-13,5"
