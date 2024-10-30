@@ -1,3 +1,4 @@
+# IDs are auto generated for now, so just use AK Names directly
 rooms:
   - name: "Beamer Room"
     capacity: 20
@@ -10,14 +11,17 @@ rooms:
   - name: "Couch"
     capacity: 8
     time_constraints: [] # Time tags this room is available at
-    fulfilled_room_constraints: [] # Room constraint tags this timeslots fulfills
+    fulfilled_room_constraints: ["gemuetlich"] # Room constraint tags this timeslots fulfills
 
 timeslots:
   - name: "Do 17-18"
-    fulfilled_time_contraints: [] # Time constraint tags this timeslot fulfills
+    fulfilled_time_contraints: ["donnerstag_abend"] # Time constraint tags this timeslot fulfills
   - name: "Do 18-19"
+    fulfilled_time_contraints: ["donnerstag_abend"]
   - name: "Do 17-18"
+    fulfilled_time_contraints: ["donnerstag_abend"]
   - name: "Do 18-19"
+    fulfilled_time_contraints: ["donnerstag_abend"]
   - name: "Fr 10,5-11,5"
   - name: "Fr 11,5-12,5"
   - name: "Fr 12,5-13,5"
@@ -37,16 +41,14 @@ aks:
   - head: Fabi
     name: Admins
     duration: 2
-    # id:
     room_constraints: []
     time_constraints: []
 
 participants:
   - name: Fabi
     aks:
-      - name: "Some AK"
-        #id: # or use IDs?
-        required: false
+      - name: Admins
+        required: true
         score: 1
-        room_constraints: []
-        time_constraints: []
+        room_constraints: ["gemuetlich"]
+        time_constraints: ["donnerstag_abend"]

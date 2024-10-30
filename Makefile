@@ -22,5 +22,5 @@ out.json: input.json .venv/deps
 	.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 input.json
 	mv out-input.json out.json
 
-input.json: config.yaml .venv/deps
+input.json: config.yaml .venv/deps deps/generate_input_json.py
 	.venv/bin/python deps/generate_input_json.py config.yaml input.json
