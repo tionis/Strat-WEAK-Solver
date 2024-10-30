@@ -10,11 +10,11 @@ rooms:
   - name: "Couch"
     capacity: 8
     time_constraints: [] # Time tags this room is available at
-    fulfilled_room_constraints: [] # Room constraints tags this timeslots fulfills
+    fulfilled_room_constraints: [] # Room constraint tags this timeslots fulfills
 
 timeslots:
   - name: "Do 17-18"
-    fulfilled_time_contraints: [] # Time constraints tags this timeslot fulfills
+    fulfilled_time_contraints: [] # Time constraint tags this timeslot fulfills
   - name: "Do 18-19"
   - name: "Do 17-18"
   - name: "Do 18-19"
@@ -42,7 +42,7 @@ aks:
     time_constraints: []
 
 participants:
-  - name: Paul
+  - name: Fabi
     aks:
       - name: "Some AK"
         #id: # or use IDs?
