@@ -1,9 +1,11 @@
 .venv
 .envrc
-out.json
-input.json
+
+out.*
+input.*
+
+config.yaml
+
 out-input.json
-.docker.id
-.solver.docker.id
-.parser.docker.id
+
 *.lp
