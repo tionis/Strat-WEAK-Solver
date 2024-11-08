@@ -1,0 +1,40 @@
+rooms:
+  - capacity: 20
+    name: Beamer Room (Boom Boom Boom)
+  - capacity: 15
+    name: Just a Room
+  - capacity: 8
+    name: Couch
+timeslots:
+  # - name: Do 17-18
+  #   fulfilled_time_constraints: ["donnerstag"]
+  # - name: Do 18-19
+  #   fulfilled_time_constraints: ["donnerstag"]
+  - name: Fr 10,5-11,5
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 11,5-12,5
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 12,5-13,5
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 14,5-15,5
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 15,5-16,5
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 17-18
+    fulfilled_time_constraints: ["freitag"]
+  - name: Fr 18-19
+    fulfilled_time_constraints: ["freitag"]
+  - name: Sa 10,5-11,5
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 11,5-12,5
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 13-14
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 14-15
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 15-16
+    fulfilled_time_constraints: ["samstag"]
+  - name: So 10,5-11,5
+    fulfilled_time_constraints: ["sonntag"]
+  - name: So 11,5-12,5
+    fulfilled_time_constraints: ["sonntag"]

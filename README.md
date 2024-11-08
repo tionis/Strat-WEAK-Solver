@@ -1,10 +1,6 @@
 # STRAtegie WochenEnde ArbeitsKreis SOLVER
 
-Um die AKs von einem Strategiewochenende zu planen, muss erst die `config.yaml` manuell oder automatisch angepasst und dann `make plan` ausgeführt werden, der fertige plan liegt dann in out.json vor.  
+Der solver wird über `make` angesteuert, am einfachsten ist es einfach die `config.yaml` zu editieren um die Timeslots und Räume festzulegen und dann das Planungssheet runterzulanden (Es muss `Planungssheet.ods` heißen).  
+Der plan kann dann mit `make plan` erstellt werden und spuckt ein paar output formate aus.
+
 Wenn einfach nur `make` bzw `make help` ausgeführt wird, wird ein kleines hilfe menü angezeigt.
-
-## Geplante Features
-
-- [ ] Schönere Ansicht des fertigen Plans
-- [ ] Import vom Planungssheet
-- [ ] Generierung von ics und anderen exports

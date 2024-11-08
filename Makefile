@@ -12,21 +12,24 @@ setup: .venv/deps ## setup runtime
 
 .venv/deps: .venv ak-plan-optimierung deps/requirements.txt
 	.venv/bin/pip install -r deps/requirements.txt
-	pip install ./ak-plan-optimierung
+	.venv/bin/pip install ./ak-plan-optimierung
 	touch .venv/deps
 
 clean: ## Clean up
-	rm -rf .venv out.json input.json
+	rm -rf .venv data
 
-out.json: input.json .venv/deps
-	.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 input.json
-	mv out-input.json out.json
+data/out.json: data/input.json .venv/deps
+	cd data && ../.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 ./input.json
+	mv data/out-input.json data/out.json
 
-out.md: out.json .venv/deps deps/generate_output_md.py
-	.venv/bin/python deps/generate_output_md.py out.json out.md
+out.md: data/out.json .venv/deps deps/generate_output_md.py
+	.venv/bin/python deps/generate_output_md.py data/out.json out.md
 
-table.md: out.json .venv/deps deps/generate_output_md_table.py
-	.venv/bin/python deps/generate_output_md_table.py out.json table.md
+table.md: data/out.json .venv/deps deps/generate_output_md_table.py
+	.venv/bin/python deps/generate_output_md_table.py data/out.json table.md
 
-input.json: config.yaml .venv/deps deps/generate_input_json.py
-	.venv/bin/python deps/generate_input_json.py config.yaml input.json
+data/input.json: data/config.yaml .venv/deps deps/generate_input_json.py
+	.venv/bin/python deps/generate_input_json.py data/config.yaml data/input.json
+
+data/config.yaml: Planungssheet.ods config.yaml .venv/deps deps/generate_yaml_config_from_ods_sheet.py
+	.venv/bin/python deps/generate_yaml_config_from_ods_sheet.py Planungssheet.ods config.yaml data/config.yaml

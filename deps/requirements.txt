@@ -1,1 +1,2 @@
 pyyaml
+odsparsator==1.12.1

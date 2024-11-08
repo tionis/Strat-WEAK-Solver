@@ -1,12 +1,8 @@
 .venv
 .envrc
 
-out.*
-input.*
+data/
+out.md
 table.md
 
-config.yaml
-
-out-input.json
-
-*.lp
+*Planungssheet.ods
