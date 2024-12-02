@@ -1,9 +1,9 @@
 rooms:
   - capacity: 20
     name: Beamer Raum
-  - capacity: 15
+  - capacity: 10
     name: Kleiner Raum
-  - capacity: 8
+  - capacity: 5
     name: Couch
 timeslots:
   # - name: Do 17-18
