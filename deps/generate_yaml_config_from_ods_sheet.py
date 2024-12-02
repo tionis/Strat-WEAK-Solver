@@ -33,24 +33,34 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
     for raw_row in AKtable[1:]:
         row = raw_row["row"]
         cleanedCols = []
+        colStyle = {}
         for col in row:
             # some cols have extra styling info, for these we take the 'value' key
+            # TODO styling info defines wether a person is needed or not
             typ = type(col)
             if typ.__name__ == "dict" and "value" in col:
                 cleanedCols.append(col["value"])
+                colStyle[col["value"]] = col["style"]
             else:
                 cleanedCols.append(col)
         if len(cleanedCols) == 0:
-            continue
-        name = cleanedCols[0]
-        if name == "Spaß-AKs/Abendprogramm":
             break
-        duration = cleanedCols[2] if cleanedCols[2] else 2
-        head_field = cleanedCols[3]
+        name = cleanedCols[0]
+        duration = 2
+        head_field = cleanedCols[1]
         if not head_field:
             head_field = ""
-        participants = [x for x in cleanedCols[4:14] if x and x != "null"]
-        heads = [x for x in str.split(head_field, ",") if x and x != "null"]
+        heads = []
+        if head_field != "" and head_field != "null":
+            heads = [head_field]
+        participants = []
+        for x in cleanedCols[2:12]:
+            if x and x != "null":
+                if colStyle[x] == 'ce77': # GELB -> required
+                    print(f"Found required person: {x}")
+                    heads.append(x)
+                else:
+                    participants.append(x)
         aks.append({
             "name": name,
             "duration": duration,
