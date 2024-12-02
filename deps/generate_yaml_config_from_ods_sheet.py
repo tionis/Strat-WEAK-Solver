@@ -46,6 +46,8 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
         if len(cleanedCols) == 0:
             break
         name = cleanedCols[0]
+        if name == "" or name == "null":
+            break
         duration = 2
         head_field = cleanedCols[1]
         if not head_field:

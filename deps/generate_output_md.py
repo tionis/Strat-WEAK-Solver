@@ -33,7 +33,11 @@ def generate_output_md(output_json, output_file):
         for timeslot in ak["timeslot_ids"]:
             if timeslot not in timeslots:
                 timeslots[timeslot] = []
-            this_ak = {"name": ak_id_to_name[ak["ak_id"]], "room": room_id_to_name[ak["room_id"]], "participants": [participant_id_to_name[participant] for participant in ak["participant_ids"]]}
+            this_ak = {
+                "name": ak_id_to_name[ak["ak_id"]],
+                "room": room_id_to_name[ak["room_id"]],
+                "participants": [participant_id_to_name[participant] for participant in ak.get("participant_ids",[])]
+            }
             timeslots[timeslot].append(this_ak)
 
     sorted_timeslots = sorted(timeslots.keys(),key=timeslot_id_to_numer)

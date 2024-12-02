@@ -1,8 +1,8 @@
 rooms:
   - capacity: 20
-    name: Beamer Room (Boom Boom Boom)
+    name: Beamer Raum
   - capacity: 15
-    name: Just a Room
+    name: Kleiner Raum
   - capacity: 8
     name: Couch
 timeslots:
@@ -33,6 +33,10 @@ timeslots:
   - name: Sa 14-15
     fulfilled_time_constraints: ["samstag"]
   - name: Sa 15-16
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 17-18
+    fulfilled_time_constraints: ["samstag"]
+  - name: Sa 18-19
     fulfilled_time_constraints: ["samstag"]
   - name: So 10,5-11,5
     fulfilled_time_constraints: ["sonntag"]
