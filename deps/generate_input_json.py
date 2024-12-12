@@ -2,6 +2,7 @@ import yaml
 import json
 import sys
 import os
+import argparse
 
 def validate_feasability(config):
     """
@@ -13,7 +14,46 @@ def validate_feasability(config):
     if ak_capacity > timeslot_room_capacity:
         raise ValueError(f"Amount of AKs ({ak_capacity}) is greater than the amount of timeslot-room combinations ({timeslot_room_capacity}).")
 
-def generate_input_json(input_file, output_file):
+def penalize_input(config, penalize_percentage=None):
+    """
+    penalize people with too many AKs
+    per default only people with more aks than timeslots are penalized
+    if penalize_percentage is set, people with more aks than aks * penalize_percentage are penalized
+    """
+    # Distribute penalties for people with too many AKs
+    # Only modifies preference_score if none exists yet
+    # Valid preference_scores
+    # -1: required
+    # 0: not interested
+    # 1: weakly interested
+    # 2: strongly interested
+
+    # Penalize people that have more AKs than timeslots
+    timeslot_count = len(config['timeslots']['blocks'][0])
+    for participant in config['participants']:
+        if len(participant['preferences']) > timeslot_count:
+            for preference in participant['preferences']:
+                print(f"Punished {participant['info']['name']} for having way too many AKs (more than timeslots available)")
+                if 'preference_score' in preference:
+                    continue
+                else:
+                    preference['preference_score'] = 1
+
+    if penalize_percentage:
+        # Penalize people that have more AKs than aks * penalize_percentage
+        ak_count = len(config['aks'])
+        for participant in config['participants']:
+            if len(participant['preferences']) > ak_count * penalize_percentage:
+                for preference in participant['preferences']:
+                    print(f"Punished {participant['info']['name']} for having too many AKs")
+                    if 'preference_score' in preference:
+                        continue
+                    else:
+                        preference['preference_score'] = 1
+
+    return config
+
+def generate_input_json(input_file, output_file, penalize=None):
     with open(input_file, 'r') as stream:
         try:
             input_data = yaml.safe_load(stream)
@@ -88,13 +128,18 @@ def generate_input_json(input_file, output_file):
         this_participant['room_constraints'] = participant.get("room_constraints", [])
         output['participants'].append(this_participant)
  
-    validate_feasability(output)
+    output = penalize_input(output, penalize_percentage=penalize)
 
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, 'w+') as f:
         f.write(json.dumps(output, indent=4))
 
 if __name__ == "__main__":
-    # argv[1] is the input yaml file
-    # argv[2] is the output json file
-    generate_input_json(sys.argv[1], sys.argv[2])
+
+    parser = argparse.ArgumentParser(description='Generate input JSON from YAML.')
+    parser.add_argument('input_file', type=str, help='The input YAML file')
+    parser.add_argument('output_file', type=str, help='The output JSON file')
+    parser.add_argument('--penalize', type=float, help='Penalize people with more AKs than aks * penalize_percentage')
+    args = parser.parse_args()
+
+    generate_input_json(args.input_file, args.output_file, penalize=args.penalize)

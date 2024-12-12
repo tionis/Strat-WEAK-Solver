@@ -29,7 +29,7 @@ table.md: data/out.json .venv/deps deps/generate_output_md_table.py
 	.venv/bin/python deps/generate_output_md_table.py data/out.json table.md
 
 data/input.json: data/config.yaml .venv/deps deps/generate_input_json.py
-	.venv/bin/python deps/generate_input_json.py data/config.yaml data/input.json
+	.venv/bin/python deps/generate_input_json.py --penalize 0.4 data/config.yaml data/input.json
 
 data/config.yaml: Planungssheet.ods config.yaml .venv/deps deps/generate_yaml_config_from_ods_sheet.py
 	.venv/bin/python deps/generate_yaml_config_from_ods_sheet.py Planungssheet.ods config.yaml data/config.yaml
