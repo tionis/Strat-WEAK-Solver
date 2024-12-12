@@ -1,6 +1,7 @@
 import yaml
 import json
 import sys
+import os
 
 def generate_yaml_config(input_json_file, output_yaml_file):
     with open(input_json_file, 'r') as json_file:
@@ -84,7 +85,8 @@ def generate_yaml_config(input_json_file, output_yaml_file):
 
         config["participants"].append(this_participant)
 
-    with open(output_yaml_file, 'w') as yaml_file:
+    os.makedirs(os.path.dirname(output_yaml_file), exist_ok=True)
+    with open(output_yaml_file, 'w+') as yaml_file:
         yaml.dump(config, yaml_file)
 
 

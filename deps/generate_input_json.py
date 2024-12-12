@@ -1,6 +1,17 @@
 import yaml
 import json
 import sys
+import os
+
+def validate_feasability(config):
+    """
+    Validate the input data for feasability.
+    This currently checks the the amount of AKs is less or equal to the amount of timeslots.
+    """
+    timeslot_room_capacity = len(config['rooms'] * len(config['timeslots']['blocks'][0]))
+    ak_capacity = len(config['aks'])
+    if ak_capacity > timeslot_room_capacity:
+        raise ValueError(f"Amount of AKs ({ak_capacity}) is greater than the amount of timeslot-room combinations ({timeslot_room_capacity}).")
 
 def generate_input_json(input_file, output_file):
     with open(input_file, 'r') as stream:
@@ -76,8 +87,11 @@ def generate_input_json(input_file, output_file):
         this_participant['time_constraints'] = participant.get("time_constraints", [])
         this_participant['room_constraints'] = participant.get("room_constraints", [])
         output['participants'].append(this_participant)
-    
-    with open(output_file, 'w') as f:
+ 
+    validate_feasability(output)
+
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, 'w+') as f:
         f.write(json.dumps(output, indent=4))
 
 if __name__ == "__main__":

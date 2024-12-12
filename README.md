@@ -4,3 +4,10 @@ Der solver wird über `make` angesteuert, am einfachsten ist es einfach die `con
 Der plan kann dann mit `make plan` erstellt werden und spuckt ein paar output formate aus.
 
 Wenn einfach nur `make` bzw `make help` ausgeführt wird, wird ein kleines hilfe menü angezeigt.
+
+## Required deps
+
+- python
+- python-venv
+- python-pip
+- make

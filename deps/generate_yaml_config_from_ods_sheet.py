@@ -1,6 +1,7 @@
 import yaml
 from odsparsator import odsparsator
 import sys
+import os
 
 def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_yaml_file):
     config = {
@@ -83,8 +84,10 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
     # Convert people from dict to list with key in name field
     config["participants"] = [{"name": key, "aks": value["aks"]} for key, value in people.items()]
 
-    with open(output_yaml_file, 'w') as yaml_file:
-       yaml.dump(config, yaml_file)
+
+    os.makedirs(os.path.dirname(output_yaml_file), exist_ok=True)
+    with open(output_yaml_file, 'w+') as yaml_file:
+        yaml.dump(config, yaml_file)
 
 
 if __name__ == "__main__":

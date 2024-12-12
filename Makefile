@@ -11,8 +11,8 @@ setup: .venv/deps ## setup runtime
 	command -v direnv >/dev/null && direnv allow
 
 .venv/deps: .venv ak-plan-optimierung deps/requirements.txt
-	.venv/bin/pip install -r deps/requirements.txt
-	.venv/bin/pip install ./ak-plan-optimierung
+	.venv/bin/python -m pip install -r deps/requirements.txt
+	.venv/bin/python -m pip install ./ak-plan-optimierung
 	touch .venv/deps
 
 clean: ## Clean up
