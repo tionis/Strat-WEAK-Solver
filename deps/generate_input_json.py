@@ -37,7 +37,7 @@ def penalize_input(config, penalize_percentage=None):
                 if 'preference_score' in preference:
                     continue
                 else:
-                    preference['preference_score'] = 1
+                    preference['preference_score'] = 0
 
     if penalize_percentage:
         # Penalize people that have more AKs than aks * penalize_percentage
@@ -102,7 +102,11 @@ def generate_input_json(input_file, output_file, penalize=None):
     output['aks'] = []
     for ak in input_data['aks']:
         this_ak = {}
-        this_ak['info'] = {"name": ak.get("name"), "reso": False, "description": "", "head": ak.get("head", "")}
+        this_ak['info'] = {"name": ak.get("name"),
+                           "reso": False, "description": "",
+                           "head": ak.get("head", ""),
+                           "description": ak.get("description", ""),
+                           "protokoll": ak.get("protokoll", "")}
         if not ak_name_to_id.get(ak.get("name")):
             ak_name_to_id[ak.get("name")] = "AK" + str(next_ak_id)
             next_ak_id += 1

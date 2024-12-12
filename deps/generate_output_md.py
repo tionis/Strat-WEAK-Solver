@@ -44,7 +44,7 @@ def generate_output_md(output_json, output_file):
     for timeslot_id in sorted_timeslots:
         output_md += f"# {timeslot_id_to_name[timeslot_id]}\n"
         for ak in timeslots[timeslot_id]:
-            output_md += f"## {ak['name']} ({ak['room']})\n"
+            output_md += f"## [{ak['name']} ({ak['room']})]({ak['name']['info'].get("protokoll","")})\n"
             for participant in ak["participants"]:
                 output_md += f"- {participant}\n"
 

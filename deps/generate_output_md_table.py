@@ -53,7 +53,7 @@ def generate_output_md_table(output_json, output_file):
     for timeslot in sorted_timeslots:
         output_md += f"| {timeslot_id_to_name[timeslot]} |"
         for ak in timeslots[timeslot]:
-            output_md += f" {ak['name']} ({ak['room']}) |"
+            output_md += f" [{ak['name']} ({ak['room']})]({ak['room']['info'].get("protokoll", "")}) |"
         for i in range(max_concurrent_aks - len(timeslots[timeslot])):
             output_md += " |"
         output_md += "\n"

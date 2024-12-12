@@ -2,7 +2,7 @@
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_./-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-plan: out.md table.md ## Plan the AKs
+plan: plan.md table.md personal_plan.md ## Plan the AKs
 
 setup: .venv/deps ## setup runtime
 
@@ -22,14 +22,17 @@ data/out.json: data/input.json .venv/deps
 	cd data && ../.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 ./input.json
 	mv data/out-input.json data/out.json
 
-out.md: data/out.json .venv/deps deps/generate_output_md.py
-	.venv/bin/python deps/generate_output_md.py data/out.json out.md
+plan.md: data/out.json .venv/deps deps/generate_output_md.py
+	.venv/bin/python deps/generate_output_md.py data/out.json plan.md
 
-table.md: data/out.json .venv/deps deps/generate_output_md_table.py
-	.venv/bin/python deps/generate_output_md_table.py data/out.json table.md
+global_table.md: data/out.json .venv/deps deps/generate_output_md_table.py
+	.venv/bin/python deps/generate_output_md_table.py data/out.json global_table.md
+
+personal_plan.md: data/out.json .venv/deps deps/generate_output_md_table.py
+	.venv/bin/python deps/generate_output_personal_md_table.py data/out.json personal_plan.md
 
 data/input.json: data/config.yaml .venv/deps deps/generate_input_json.py
-	.venv/bin/python deps/generate_input_json.py --penalize 0.4 data/config.yaml data/input.json
+	.venv/bin/python deps/generate_input_json.py --penalize 0.3 data/config.yaml data/input.json
 
 data/config.yaml: Planungssheet.ods config.yaml .venv/deps deps/generate_yaml_config_from_ods_sheet.py
 	.venv/bin/python deps/generate_yaml_config_from_ods_sheet.py Planungssheet.ods config.yaml data/config.yaml
