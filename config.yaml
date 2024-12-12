@@ -8,20 +8,22 @@ rooms:
     fulfilled_room_constraints: ["gemütlich"]
 timeslots:
   - name: Fr 10:30-12:30
-    fulfilled_time_constraints: ["freitag"]
-  - name: Fr 12:30-14:30
-    fulfilled_time_constraints: ["freitag"]
-  - name: Fr 15:30-17:30
-    fulfilled_time_constraints: ["freitag"]
-  - name: Fr 18:00-20:00
-    fulfilled_time_constraints: ["freitag"]
-  - name: Sa 10:30-12:30
-    fulfilled_time_constraints: ["samstag"]
-  - name: Sa 13:00-15:00
-    fulfilled_time_constraints: ["samstag"]
-  - name: Sa 15:00-17:00
-    fulfilled_time_constraints: ["samstag"]
-  - name: Sa 17:00-19:00
-    fulfilled_time_constraints: ["samstag"]
-  - name: So 10:30-12:30
-    fulfilled_time_constraints: ["sonntag"]
+    fulfilled_time_constraints: ["freitag", "nicht_sonntag", "vormittags", "nicht_samstag"]
+  - name: Fr 14:00-16:00
+    fulfilled_time_constraints: ["freitag", "nicht_sonntag", "mittags", "nicht_samstag", "nach_freitag_mittag"]
+  - name: Fr 16:30-18:30
+    fulfilled_time_constraints: ["freitag", "nicht_sonntag", "nachmittags", "nicht_samstag", "nach_freitag_ankunft"]
+  - name: Fr 20:00-22:00
+    fulfilled_time_constraints: ["freitag", "nicht_sonntag", "abends", "nicht_samstag", "nach_freitag_ankunft"]
+  
+  - name: Sa 10:00-12:00
+    fulfilled_time_constraints: ["samstag", "nicht_sonntag", "vormittags", "nicht_freitag", "nach_freitag_ankunft"]
+  - name: Sa 12:00-13:00 & 14:00-15:00
+    fulfilled_time_constraints: ["samstag", "nicht_sonntag", "mittags", "nicht_freitag", "nach_freitag_ankunft"]
+  - name: Sa 15:00-16:00 & 16:30-17:30
+    fulfilled_time_constraints: ["samstag", "nicht_sonntag", "nachmittags", "nicht_freitag", "nach_freitag_ankunft"]
+  - name: Sa 17:30-18:30 & So 10:00-11:00
+    fulfilled_time_constraints: ["samstag", "nicht_sonntag", "abends", "nicht_freitag", "nach_freitag_ankunft"]
+  
+  - name: So 11:00-13:00
+    fulfilled_time_constraints: ["sonntag", "vormittags", "nicht_samstag", "nicht_freitag", "nach_freitag_ankunft"]
