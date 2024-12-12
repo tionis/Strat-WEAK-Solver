@@ -6,39 +6,21 @@ rooms:
   - capacity: 5
     name: Couch
 timeslots:
-  # - name: Do 17-18
-  #   fulfilled_time_constraints: ["donnerstag"]
-  # - name: Do 18-19
-  #   fulfilled_time_constraints: ["donnerstag"]
-  - name: Fr 10,5-11,5
+  - name: Fr 10:30-12:30
     fulfilled_time_constraints: ["freitag"]
-  - name: Fr 11,5-12,5
+  - name: Fr 12:30-14:30
     fulfilled_time_constraints: ["freitag"]
-  - name: Fr 12,5-13,5
+  - name: Fr 15:30-17:30
     fulfilled_time_constraints: ["freitag"]
-  - name: Fr 14,5-15,5
+  - name: Fr 18:00-20:00
     fulfilled_time_constraints: ["freitag"]
-  - name: Fr 15,5-16,5
-    fulfilled_time_constraints: ["freitag"]
-  - name: Fr 17-18
-    fulfilled_time_constraints: ["freitag"]
-  - name: Fr 18-19
-    fulfilled_time_constraints: ["freitag"]
-  - name: Sa 10,5-11,5
+  - name: Sa 10:30-12:30
     fulfilled_time_constraints: ["samstag"]
-  - name: Sa 11,5-12,5
+  - name: Sa 13:00-15:00
     fulfilled_time_constraints: ["samstag"]
-  - name: Sa 13-14
+  - name: Sa 15:00-17:00
     fulfilled_time_constraints: ["samstag"]
-  - name: Sa 14-15
+  - name: Sa 17:00-19:00
     fulfilled_time_constraints: ["samstag"]
-  - name: Sa 15-16
-    fulfilled_time_constraints: ["samstag"]
-  - name: Sa 17-18
-    fulfilled_time_constraints: ["samstag"]
-  - name: Sa 18-19
-    fulfilled_time_constraints: ["samstag"]
-  - name: So 10,5-11,5
-    fulfilled_time_constraints: ["sonntag"]
-  - name: So 11,5-12,5
+  - name: So 10:30-12:30
     fulfilled_time_constraints: ["sonntag"]
