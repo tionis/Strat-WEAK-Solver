@@ -28,8 +28,8 @@ data/out.json: data/input.json .venv/deps
 plan.md: data/out.json .venv/deps deps/generate_output_md.py
 	.venv/bin/python deps/generate_output_md.py data/out.json plan.md
 
-global_table.md: data/out.json .venv/deps deps/generate_output_md_table.py
-	.venv/bin/python deps/generate_output_md_table.py data/out.json global_table.md
+table.md: data/out.json .venv/deps deps/generate_output_md_table.py
+	.venv/bin/python deps/generate_output_md_table.py data/out.json table.md
 
 personal_plan.md: data/out.json .venv/deps deps/generate_output_md_table.py
 	.venv/bin/python deps/generate_output_personal_md_table.py data/out.json personal_plan.md

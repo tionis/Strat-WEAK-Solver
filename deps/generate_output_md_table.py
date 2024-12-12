@@ -15,9 +15,12 @@ def generate_output_md_table(output_json, output_file):
     room_id_to_name = {}
     participant_id_to_name = {}
     timeslot_id_to_name = {}
+    ak_id_to_info = {}
 
     for ak in output["input"]["aks"]:
         ak_id_to_name[ak["id"]] = ak["info"]["name"]
+        ak_id_to_info[ak["id"]] = ak["info"]
+
 
     for room in output["input"]["rooms"]:
         room_id_to_name[room["id"]] = room["info"]["name"]
@@ -33,7 +36,10 @@ def generate_output_md_table(output_json, output_file):
         for timeslot in ak["timeslot_ids"]:
             if timeslot not in timeslots:
                 timeslots[timeslot] = []
-            this_ak = {"name": ak_id_to_name[ak["ak_id"]], "room": room_id_to_name[ak["room_id"]], "participants": [participant_id_to_name[participant] for participant in ak.get("participant_ids",[])]}
+            this_ak = {"name": ak_id_to_name[ak["ak_id"]],
+                       "room": room_id_to_name[ak["room_id"]],
+                       "info": ak_id_to_info[ak["ak_id"]],
+                       "participants": [participant_id_to_name[participant] for participant in ak.get("participant_ids",[])]}
             timeslots[timeslot].append(this_ak)
 
     sorted_timeslots = sorted(timeslots.keys(),key=timeslot_id_to_numer)
@@ -53,7 +59,7 @@ def generate_output_md_table(output_json, output_file):
     for timeslot in sorted_timeslots:
         output_md += f"| {timeslot_id_to_name[timeslot]} |"
         for ak in timeslots[timeslot]:
-            output_md += f" [{ak['name']} ({ak['room']})]({ak['room']['info'].get("protokoll", "")}) |"
+            output_md += f" [{ak['name']} ({ak['room']})]({ak['info'].get("protokoll", "")}) |"
         for i in range(max_concurrent_aks - len(timeslots[timeslot])):
             output_md += " |"
         output_md += "\n"
