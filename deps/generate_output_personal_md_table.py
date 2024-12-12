@@ -1,6 +1,12 @@
 import json
 import sys
 
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return json.JSONEncoder.default(self, obj)
+
 def timeslot_id_to_numer(timeslot_id):
     # trim prefix "Slot"
     return int(timeslot_id[4:])
@@ -45,21 +51,43 @@ def generate_output_md_table(output_json, output_file):
     sorted_timeslots = sorted(timeslots.keys(),key=timeslot_id_to_numer)
 
     aks_per_person_per_timeslot = {}
+    ak_per_person = {}
+    ak_to_timeslot = {}
     for ak in output["scheduled_aks"]:
         for timeslot in ak["timeslot_ids"]:
             for participant in ak.get("participant_ids", []):
                 if participant not in aks_per_person_per_timeslot:
                     aks_per_person_per_timeslot[participant] = {}
+                if participant not in ak_per_person:
+                    ak_per_person[participant] = set()
                 if timeslot not in aks_per_person_per_timeslot[participant]:
-                    aks_per_person_per_timeslot[participant][timeslot] = []
-                aks_per_person_per_timeslot[participant][timeslot].append(ak["ak_id"])
+                    aks_per_person_per_timeslot[participant][timeslot] = set()
+                if ak["ak_id"] not in ak_to_timeslot:
+                    ak_to_timeslot[ak["ak_id"]] = set()
+                ak_per_person[participant].add(ak["ak_id"])
+                ak_to_timeslot[ak["ak_id"]].add(timeslot)
+                aks_per_person_per_timeslot[participant][timeslot].add(ak["ak_id"])
+
+    # Enriching the participants with their AK conflicts
+
+    for participant in output["input"]["participants"]:
+        for ak in participant["preferences"]:
+            ak_id = ak["ak_id"]
+            ak_per_person[participant["id"]].add(ak_id)
+            timeslots = ak_to_timeslot[ak_id]
+            for timeslot in timeslots:
+                if timeslot not in aks_per_person_per_timeslot[participant["id"]].keys():
+                    aks_per_person_per_timeslot[participant["id"]][timeslot] = set()
+                aks_per_person_per_timeslot[participant["id"]][timeslot].add(ak_id)
+
+    #print(json.dumps(aks_per_person_per_timeslot, indent=4, cls=SetEncoder))
 
     output_md="# Personal Plans\n"
 
     for participant in output["input"]["participants"]:
         output_md += f"## {participant['info']['name']}\n"
         if participant["id"] not in aks_per_person_per_timeslot:
-            aks_per_person_per_timeslot[participant["id"]] = []
+            aks_per_person_per_timeslot[participant["id"]] = {}
         max_concurrent_aks = 1
         for ak in aks_per_person_per_timeslot[participant["id"]].values():
             if len(ak) > max_concurrent_aks:

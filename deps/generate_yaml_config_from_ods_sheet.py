@@ -96,9 +96,9 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
                 people[participant] = {"name": "participant", "aks": []}
             people[participant]["aks"].append({"name": name})
 
-    # go over all rows in the participants table skipping the first row
+    # go over all rows in the participants table skipping the first two rows
     # for all rows where the third column doesn't contain a checkmark symbol "✔" add the time_constraint "nach_freitag_ankunft"
-    for raw_row in ParticipantsTable[1:]:
+    for raw_row in ParticipantsTable[2:]:
         row = raw_row["row"]
         cleanedCols = []
         for col in row:
