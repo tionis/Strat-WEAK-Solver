@@ -1,4 +1,4 @@
-.PHONY: help plan setup clean
+.PHONY: help plan setup clean importance
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_./-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -17,6 +17,9 @@ setup: .venv/deps ## setup runtime
 
 clean: ## Clean up
 	rm -rf .venv data
+
+importance: data/input.json ## Calculate importance of AKs
+	@.venv/bin/python deps/generate_ak_importance.py data/input.json
 
 data/out.json: data/input.json .venv/deps
 	cd data && ../.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 ./input.json
