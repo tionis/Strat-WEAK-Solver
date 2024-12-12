@@ -12,12 +12,14 @@ def generate_output_md(output_json, output_file):
     output_md = ""
 
     ak_id_to_name = {}
+    ak_id_to_info = {}
     room_id_to_name = {}
     participant_id_to_name = {}
     timeslot_id_to_name = {}
 
     for ak in output["input"]["aks"]:
         ak_id_to_name[ak["id"]] = ak["info"]["name"]
+        ak_id_to_info[ak["id"]] = ak["info"]
 
     for room in output["input"]["rooms"]:
         room_id_to_name[room["id"]] = room["info"]["name"]
@@ -36,7 +38,8 @@ def generate_output_md(output_json, output_file):
             this_ak = {
                 "name": ak_id_to_name[ak["ak_id"]],
                 "room": room_id_to_name[ak["room_id"]],
-                "participants": [participant_id_to_name[participant] for participant in ak.get("participant_ids",[])]
+                "participants": [participant_id_to_name[participant] for participant in ak.get("participant_ids",[])],
+                "protokoll": ak_id_to_info[ak["ak_id"]].get("protokoll", "")
             }
             timeslots[timeslot].append(this_ak)
 
@@ -44,7 +47,7 @@ def generate_output_md(output_json, output_file):
     for timeslot_id in sorted_timeslots:
         output_md += f"# {timeslot_id_to_name[timeslot_id]}\n"
         for ak in timeslots[timeslot_id]:
-            output_md += f"## [{ak['name']} ({ak['room']})]({ak['name']['info'].get("protokoll","")})\n"
+            output_md += f"## [{ak['name']} ({ak['room']})]({ak['protokoll']})\n"
             for participant in ak["participants"]:
                 output_md += f"- {participant}\n"
 

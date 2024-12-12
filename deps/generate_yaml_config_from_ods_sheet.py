@@ -70,9 +70,9 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
         description = ""
         if len(cleanedCols) > 13:
             description = cleanedCols[13]
-        fulfilled_room_constraints = []
+        room_constraints = []
         if len(cleanedCols) > 14:
-            fulfilled_room_constraints = cleanedCols[14].split(",")
+            room_constraints = cleanedCols[14].split(",")
         aks.append({
             "name": name,
             "protokoll": protokoll,
@@ -80,7 +80,7 @@ def generate_yaml_config(input_ods_sheet_file, input_yaml_config_file, output_ya
             "duration": duration,
             "head": head_field,
             "participants": participants+heads,
-            "fulfilled_room_constraints": fulfilled_room_constraints
+            "room_constraints": room_constraints
         })
         for head in heads:
             if not head in people:

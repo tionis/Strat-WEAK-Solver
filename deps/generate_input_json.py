@@ -150,7 +150,7 @@ def generate_input_json(input_file, output_file, penalize=None):
         output['participants'].append(this_participant)
  
     validate_feasability(output)
-    output = penalize_input(output, penalize_percentage=penalize)
+    #output = penalize_input(output, penalize_percentage=penalize)
 
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, 'w+') as f:

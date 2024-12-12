@@ -5,6 +5,7 @@ rooms:
     name: Kleiner Raum
   - capacity: 5
     name: Couch
+    fulfilled_room_constraints: ["gemütlich"]
 timeslots:
   - name: Fr 10:30-12:30
     fulfilled_time_constraints: ["freitag"]
