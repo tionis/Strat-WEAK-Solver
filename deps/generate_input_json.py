@@ -9,10 +9,14 @@ def validate_feasability(config):
     Validate the input data for feasability.
     This currently checks the the amount of AKs is less or equal to the amount of timeslots.
     """
-    timeslot_room_capacity = len(config['rooms'] * len(config['timeslots']['blocks'][0]))
-    ak_capacity = len(config['aks'])
+    timeslot_room_capacity = len(config['rooms']) * len(config['timeslots']['blocks'][0])
+    ak_capacity = 0
+    for ak in config['aks']:
+        ak_capacity += ak['duration']
     if ak_capacity > timeslot_room_capacity:
         raise ValueError(f"Amount of AKs ({ak_capacity}) is greater than the amount of timeslot-room combinations ({timeslot_room_capacity}).")
+    else:
+        print(f"Amount of AKs ({ak_capacity}) is less or equal to the amount of timeslot-room combinations ({timeslot_room_capacity}).")
 
 def penalize_input(config, penalize_percentage=None):
     """
@@ -31,21 +35,34 @@ def penalize_input(config, penalize_percentage=None):
     # Penalize people that have more AKs than timeslots
     timeslot_count = len(config['timeslots']['blocks'][0])
     for participant in config['participants']:
+        ak_timeslot_count=0
+        # Sum up all AK durations
         if len(participant['preferences']) > timeslot_count:
             for preference in participant['preferences']:
-                print(f"Punished {participant['info']['name']} for having way too many AKs (more than timeslots available)")
+                ak_timeslot_count += next(ak['duration'] for ak in config['aks'] if ak['id'] == preference['ak_id'])
+            if ak_timeslot_count > timeslot_count:
+                for preference in participant['preferences']:
+                    print(f"Punished {participant['info']['name']} for having too many AKs")
+                    if 'preference_score' in preference:
+                        continue
+                    else:
+                        preference['preference_score'] = 1
+        if ak_timeslot_count > timeslot_count:
+            print(f"Punishing {participant['info']['name']} for having too many AKs\nThey have {ak_timeslot_count} AKs and there are only {timeslot_count} timeslots")
+            for preference in participant['preferences']:
                 if 'preference_score' in preference:
                     continue
                 else:
                     preference['preference_score'] = 0
+
 
     if penalize_percentage:
         # Penalize people that have more AKs than aks * penalize_percentage
         ak_count = len(config['aks'])
         for participant in config['participants']:
             if len(participant['preferences']) > ak_count * penalize_percentage:
+                print(f"Punishing {participant['info']['name']} for having too many AKs")
                 for preference in participant['preferences']:
-                    print(f"Punished {participant['info']['name']} for having too many AKs")
                     if 'preference_score' in preference:
                         continue
                     else:
@@ -132,6 +149,7 @@ def generate_input_json(input_file, output_file, penalize=None):
         this_participant['room_constraints'] = participant.get("room_constraints", [])
         output['participants'].append(this_participant)
  
+    validate_feasability(output)
     output = penalize_input(output, penalize_percentage=penalize)
 
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
