@@ -1,4 +1,4 @@
-.PHONY: help plan setup clean importance
+.PHONY: help plan setup clean importance early_aks
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_./-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -21,8 +21,11 @@ clean: ## Clean up
 importance: data/input.json ## Calculate importance of AKs
 	@.venv/bin/python deps/generate_ak_importance.py data/input.json
 
+early_aks: data/input.json ## Calculate early AKs
+	@.venv/bin/python deps/aks_possible_thursday.py data/input.json
+
 data/out.json: data/input.json .venv/deps
-	cd data && ../.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_rel 9 ./input.json
+	cd data && ../.venv/bin/python -m akplan.solve --threads "$$(nproc)" --gap_abs 0.41 ./input.json
 	mv data/out-input.json data/out.json
 
 plan.md: data/out.json .venv/deps deps/generate_output_md.py
